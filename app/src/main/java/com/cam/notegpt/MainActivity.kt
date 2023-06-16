@@ -3,6 +3,7 @@ package com.cam.notegpt
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,6 +16,7 @@ import com.cam.notegpt.Database.NoteDatabase
 import com.cam.notegpt.Models.Note
 import com.cam.notegpt.Models.NoteViewModel
 import com.cam.notegpt.databinding.ActivityMainBinding
+import com.cam.notegpt.Settings
 
 class MainActivity : AppCompatActivity(), NoteAdapter.NotesItemClickListener, PopupMenu.OnMenuItemClickListener {
 
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity(), NoteAdapter.NotesItemClickListener, Po
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
         // Initialize the UI
         initUI()
 
@@ -112,6 +115,24 @@ class MainActivity : AppCompatActivity(), NoteAdapter.NotesItemClickListener, Po
             return true
         }
         return false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                // Open SettingsActivity when the settings menu item is clicked
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
 
